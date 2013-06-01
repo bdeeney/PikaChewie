@@ -36,12 +36,13 @@ class BlockingPublisher(object):
     def publish(self, exchange, routing_key, body, properties=None):
         """Publish a message to RabbitMQ.
 
-        `properties` should be an instance of rejected.data.Properties or None.
+        `properties` should be an instance of pikachewie.data.Properties or
+        None.
 
         :param str exchange: the exchange to publish to
         :param str routing_key: the routing key to publish with
         :param str|unicode body: the message body to publish
-        :param rejected.data.Properties properties: the message properties
+        :param pikachewie.data.Properties properties: the message properties
 
         """
         if properties:
@@ -65,10 +66,10 @@ class BlockingPublisher(object):
             )
 
     def _build_basic_properties(self, properties):
-        """Return a pika.BasicProperties object for a rejected.data.Properties
-        object.
+        """
+        Get the pika.BasicProperties from a pikachewie.data.Properties object.
 
-        :param rejected.data.Properties properties: Properties to convert
+        :param pikachewie.data.Properties properties: properties to convert
         :rtype: pika.spec.BasicProperties
 
         """
@@ -103,7 +104,7 @@ class BlockingPublisher(object):
 class BlockingJSONPublisher(BlockingPublisher):
     """Publisher that JSON-serializes the message payload."""
     def _serialize(self, value):
-        """Serialize the inbound value as JSON
+        """Serialize the inbound value as JSON.
 
         :param dict|list|str|number value: The value to serialize
         :return: str
@@ -115,10 +116,10 @@ class BlockingJSONPublisher(BlockingPublisher):
         """Publish a message to RabbitMQ on the same channel the original
         message was received on, automatically serializing the message payload.
 
-        :param str exchange: The exchange to publish to
-        :param str routing_key: The routing key to publish with
-        :param rejected.data.Properties: The message properties
-        :param dict|list: The message body to publish
+        :param str exchange: the exchange to publish to
+        :param str routing_key: the routing key to publish with
+        :param pikachewie.data.Properties: the message properties
+        :param dict|list: the message body to publish
 
         """
         if not properties:
