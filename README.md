@@ -10,7 +10,7 @@ Lineage
 -------
 PikaChewie is an extensive reworking of [Gavin M. Roy](https://github.com/gmr)'s
 [rejected](https://github.com/gmr/rejected) framework, and is intended as a
-lighterweight alternative to its predecessor.  A significant amount of code from
+lighter-weight alternative to its predecessor.  A significant amount of code from
 rejected has been ported into PikaChewie, either as-is or in refactored form.
 
 Installation
