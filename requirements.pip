@@ -1,3 +1,2 @@
 Sphinx
 tox
--r requirements-tests.pip
