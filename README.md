@@ -51,3 +51,5 @@ To generate and view the docs:
   $ python setup.py build_sphinx
   $ open doc/html/index.html
 ```
+
+The docs are also available at https://pikachewie.readthedocs.org/.
