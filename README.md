@@ -1,8 +1,8 @@
-[Documentation](http://pikachewie.readthedocs.org/)
+[Documentation](https://pikachewie.readthedocs.org/)
 
 PikaChewie
 ==========
-PikaChewie is your [pika](https://pika.readthedocs.org/en/latest/) co-pilot,
+PikaChewie is your [pika](https://pika.readthedocs.org/) co-pilot,
 providing [RabbitMQ](http://www.rabbitmq.com/) messaging tools with
 [bandoliers](http://www.angelfire.com/pa2/crash19/bandolier.html) included.
 
