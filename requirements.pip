@@ -1,0 +1,6 @@
+coverage==3.5.3
+pep8
+pylint
+Sphinx
+tox
+-r requirements-tests.pip

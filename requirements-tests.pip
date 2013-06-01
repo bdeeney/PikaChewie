@@ -1,0 +1,7 @@
+contextlib2
+mock
+nose
+nose-parameterized
+pyrabbit
+PyYAML
+testfixtures

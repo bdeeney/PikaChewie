@@ -1,0 +1,2 @@
+.. automodule:: pikachewie.publisher
+    :members:

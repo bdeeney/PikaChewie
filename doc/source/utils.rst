@@ -1,0 +1,2 @@
+.. automodule:: pikachewie.utils
+    :members:
