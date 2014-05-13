@@ -23,13 +23,13 @@ class ConsumerAgent(object):
     A RabbitMQ client that passes Messages between a Broker and a Consumer.
 
     """
-    _ack = True
     _RECONNECT_DELAY = 5  # seconds
 
-    def __init__(self, consumer, broker, bindings, config=None):
+    def __init__(self, consumer, broker, bindings, no_ack=False, config=None):
         self.consumer = consumer
         self.broker = broker
         self.bindings = bindings
+        self._ack = not no_ack
         self.config = config or {}
         self.connection = None
         self._reinitialize()
@@ -218,7 +218,7 @@ class ConsumerAgent(object):
         self.add_on_cancel_callback()
         log.info('Issuing basic_consume on queue %s', queue)
         self._consumer_tags[queue] = self.channel.basic_consume(
-            consumer_callback=self.process, queue=queue, no_ack=False)
+            consumer_callback=self.process, queue=queue, no_ack=not self._ack)
 
     def add_on_cancel_callback(self):
         """Add an on-cancel callback. """

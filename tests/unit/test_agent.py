@@ -12,7 +12,7 @@ class DescribeConsumerAgent(_BaseTestCase):
 
     def execute(self):
         self.agent = ConsumerAgent(sentinel.consumer, sentinel.broker,
-                                   sentinel.bindings, sentinel.config)
+                                   sentinel.bindings, False, sentinel.config)
 
     def should_have_consumer(self):
         self.assertIs(self.agent.consumer, sentinel.consumer)
@@ -22,6 +22,9 @@ class DescribeConsumerAgent(_BaseTestCase):
 
     def should_have_bindings(self):
         self.assertIs(self.agent.bindings, sentinel.bindings)
+
+    def should_manually_ack_messages_by_default(self):
+        self.assertTrue(self.agent._ack)
 
     def should_have_config(self):
         self.assertIs(self.agent.config, sentinel.config)
@@ -258,7 +261,7 @@ class DescribeDeclareExchange(_BaseTestCase):
         self.options = {'exchange_type': 'topic', 'durable': True}
         config = {'exchanges': {sentinel.exchange: self.options}}
         self.agent = ConsumerAgent(sentinel.consumer, sentinel.broker,
-                                   sentinel.bindings, config)
+                                   sentinel.bindings, False, config)
         self.agent.channel = MagicMock()
 
     def execute(self):
@@ -305,7 +308,7 @@ class DescribeDeclareQueue(_BaseTestCase):
         self.options = {'durable': True, 'arguments': {'x-ha-policy': 'all'}}
         config = {'queues': {sentinel.queue: self.options}}
         self.agent = ConsumerAgent(sentinel.consumer, sentinel.broker,
-                                   sentinel.bindings, config)
+                                   sentinel.bindings, False, config)
         self.agent.channel = MagicMock()
 
     def execute(self):

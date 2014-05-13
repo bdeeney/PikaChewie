@@ -90,8 +90,10 @@ def consumer_agent_from_config(config, name, broker='default',
         }
 
     """
-    consumer = consumer_from_config(config[section]['consumers'][name])
+    consumer_config = config[section]['consumers'][name]
+    consumer = consumer_from_config(consumer_config)
     broker = broker_from_config(config[section]['brokers'][broker])
-    bindings = config[section]['consumers'][name]['bindings']
+    no_ack = consumer_config.get('no_ack', False)
 
-    return ConsumerAgent(consumer, broker, bindings, config['rabbitmq'])
+    return ConsumerAgent(consumer, broker, consumer_config['bindings'], no_ack,
+                         config['rabbitmq'])
