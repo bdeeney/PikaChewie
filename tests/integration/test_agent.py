@@ -35,9 +35,10 @@ class DescribeConsumerAgent(_BaseTestCase):
 
 class MockAgent(ConsumerAgent):
 
-    def __init__(self, broker, consumer, bindings, config=None,
+    def __init__(self, broker, consumer, bindings, no_ack=False, config=None,
                  stop_callback=None):
-        super(MockAgent, self).__init__(broker, consumer, bindings, config)
+        super(MockAgent, self).__init__(broker, consumer, bindings, no_ack,
+                                        config)
         self._stop = stop_callback
 
     def start_consuming(self, queue):
@@ -79,7 +80,7 @@ class AsyncAgentTestCase(AsyncTestCase):
 
     @cached_property
     def agent(self):
-        agent = MockAgent(self.consumer, self.broker, self.bindings,
+        agent = MockAgent(self.consumer, self.broker, self.bindings, False,
                           self.config, stop_callback=self.stop)
         agent.connect()
         return agent
