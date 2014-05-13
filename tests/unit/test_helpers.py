@@ -74,6 +74,7 @@ class DescribeConsumerAgentFromConfig(_BaseTestCase):
         self.ctx.ConsumerAgent.assert_called_once_with(sentinel.consumer,
                                                        sentinel.broker,
                                                        self.bindings,
+                                                       True,
                                                        config['rabbitmq'])
 
     def should_return_agent(self):

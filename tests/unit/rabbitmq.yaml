@@ -28,6 +28,7 @@ rabbitmq:
       class: tests.LoggingConsumer
       arguments:
         level: debug
+      no_ack: True
       bindings:
         - exchange: message
           queue: text
