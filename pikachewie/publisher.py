@@ -14,34 +14,19 @@ from pika.spec import BasicProperties
 log = logging.getLogger(__name__)
 
 
-class BlockingPublisher(object):
-    """Base class for synchronous RabbitMQ publishers."""
-    _channel = None
-
-    def __init__(self, broker):
-        self.broker = broker
-
-    @property
-    def channel(self):
-        """Return an open channel to the RabbitMQ broker.
-
-        If necessary, create and cache a new channel.
-
-        """
-        if not self._channel or not self._channel.is_open:
-            self._channel = self.broker.connect(blocking=True).channel()
-            self._channel.confirm_delivery()
-        return self._channel
+class PublisherMixin(object):
+    """Mixin for publishing messages to RabbitMQ."""
 
     def publish(self, exchange, routing_key, body, properties=None):
         """Publish a message to RabbitMQ.
 
-        `properties` should be an instance of rejected.data.Properties or None.
+        `properties` should be an instance of pikachewie.data.Properties or
+        None.
 
         :param str exchange: the exchange to publish to
         :param str routing_key: the routing key to publish with
         :param str|unicode body: the message body to publish
-        :param rejected.data.Properties properties: the message properties
+        :param pikachewie.data.Properties properties: the message properties
 
         """
         if properties:
@@ -65,10 +50,10 @@ class BlockingPublisher(object):
             )
 
     def _build_basic_properties(self, properties):
-        """Return a pika.BasicProperties object for a rejected.data.Properties
-        object.
+        """
+        Get the pika.BasicProperties from a pikachewie.data.Properties object.
 
-        :param rejected.data.Properties properties: Properties to convert
+        :param pikachewie.data.Properties properties: properties to convert
         :rtype: pika.spec.BasicProperties
 
         """
@@ -100,10 +85,30 @@ class BlockingPublisher(object):
         return basic_properties
 
 
-class BlockingJSONPublisher(BlockingPublisher):
-    """Publisher that JSON-serializes the message payload."""
+class BlockingPublisher(PublisherMixin, object):
+    """Base class for synchronous RabbitMQ publishers."""
+    _channel = None
+
+    def __init__(self, broker):
+        self.broker = broker
+
+    @property
+    def channel(self):
+        """Return an open channel to the RabbitMQ broker.
+
+        If necessary, create and cache a new channel.
+
+        """
+        if not self._channel or not self._channel.is_open:
+            self._channel = self.broker.connect(blocking=True).channel()
+            self._channel.confirm_delivery()
+        return self._channel
+
+
+class JSONPublisherMixin(PublisherMixin):
+    """Publisher Mixin that JSON-serializes the message payload."""
     def _serialize(self, value):
-        """Serialize the inbound value as JSON
+        """Serialize the inbound value as JSON.
 
         :param dict|list|str|number value: The value to serialize
         :return: str
@@ -115,18 +120,22 @@ class BlockingJSONPublisher(BlockingPublisher):
         """Publish a message to RabbitMQ on the same channel the original
         message was received on, automatically serializing the message payload.
 
-        :param str exchange: The exchange to publish to
-        :param str routing_key: The routing key to publish with
-        :param rejected.data.Properties: The message properties
-        :param dict|list: The message body to publish
+        :param str exchange: the exchange to publish to
+        :param str routing_key: the routing key to publish with
+        :param pikachewie.data.Properties: the message properties
+        :param dict|list: the message body to publish
 
         """
         if not properties:
             properties = BasicProperties()
         properties.content_type = 'application/json'
-        super(BlockingJSONPublisher, self).publish(
+        super(JSONPublisherMixin, self).publish(
             exchange,
             routing_key,
             self._serialize(payload),
             properties,
         )
+
+
+class BlockingJSONPublisher(JSONPublisherMixin, BlockingPublisher):
+    pass

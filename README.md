@@ -1,10 +1,17 @@
-[Documentation](http://pikachewie.readthedocs.org/)
+[Documentation](https://pikachewie.readthedocs.org/)
 
 PikaChewie
 ==========
-PikaChewie is your [pika](https://pika.readthedocs.org/en/latest/) co-pilot,
+PikaChewie is your [pika](https://pika.readthedocs.org/) co-pilot,
 providing [RabbitMQ](http://www.rabbitmq.com/) messaging tools with
 [bandoliers](http://www.angelfire.com/pa2/crash19/bandolier.html) included.
+
+Lineage
+-------
+PikaChewie is an extensive reworking of [Gavin M. Roy](https://github.com/gmr)'s
+[rejected](https://github.com/gmr/rejected) framework, and is intended as a
+lighter-weight alternative to its predecessor.  A significant amount of code from
+rejected has been ported into PikaChewie, either as-is or in refactored form.
 
 Installation
 ------------
@@ -12,16 +19,18 @@ To install PikaChewie from source:
 
 ```bash
   $ git clone git@github.com:bdeeney/PikaChewie.git
-  $ cd pikachewie
-  $ make dev
+  $ cd PikaChewie
+  $ virtualenv env
+  $ . env/bin/activate
+  $ pip install -r requirements.pip
 ```
 
-Running Test Suite
-------------------
-To run the test suite:
+Running the Test Suite
+----------------------
+After installing the prequisites (previous section), run tox from the project root:
 
 ```bash
-  $ make test
+  $ tox
 ```
 
 Development
@@ -31,14 +40,16 @@ Development
 
 PikaChewie is developed using [HubFlow], DataSift's
 [fork](https://github.com/datasift/gitflow) of the [GitFlow] git extensions.
-The working branch is 'develop' and 'master' should match what is deployed
-in production.
+
 
 Building Docs
 -------------
 To generate and view the docs:
 
 ```bash
-  $ make doc
+  $ python setup.py develop
+  $ python setup.py build_sphinx
   $ open doc/html/index.html
 ```
+
+The docs are also available at https://pikachewie.readthedocs.org/.
