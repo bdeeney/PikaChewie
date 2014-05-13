@@ -43,13 +43,6 @@ class WhenCreatingMessage(_BaseTestCase):
     def should_set_body(self):
         self.assertIs(self.message.body, sentinel.body_copy)
 
-    def should_have_repr(self):
-        self.assertEqual(repr(self.message),
-                         "<Message(['body=sentinel.body_copy', "
-                         "'method=sentinel.method', "
-                         "'channel=sentinel.channel', "
-                         "'properties=sentinel.properties'])>")
-
 
 class DescribeMessage(_BaseTestCase):
 
