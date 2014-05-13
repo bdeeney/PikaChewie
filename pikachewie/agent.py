@@ -252,7 +252,7 @@ class ConsumerAgent(object):
 
         """
         message = Message(channel, method, header, body)
-        log.info('Received message #%s', message.delivery_tag)
+        log.debug('Received message #%s', message.delivery_tag)
         log.debug('Message body: %s', message.body)
         if self._process(message):
             if self._ack:
@@ -299,7 +299,7 @@ class ConsumerAgent(object):
         :param message: the message to acknowledge
         :type message: :class:`pikachewie.message.Message`
         """
-        log.info('Acknowledging message #%s', message.delivery_tag)
+        log.debug('Acknowledging message #%s', message.delivery_tag)
         self.channel.basic_ack(message.delivery_tag)
 
     def run(self):
