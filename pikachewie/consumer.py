@@ -17,7 +17,7 @@ class Consumer(object):
         """Process the given RabbitMQ `message`.
 
         To implement logic for processing messages in `Consumer` subclasses,
-        override :meth:`_process`, not this method.
+        override :meth:`process_message`, not this method.
 
         :param message: the message to process
         :type message: :class:`pikachewie.message.Message`
