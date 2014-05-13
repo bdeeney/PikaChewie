@@ -1,7 +1,8 @@
 from mock import call, MagicMock, patch, PropertyMock, sentinel
 from pika.exceptions import ConnectionClosed, ChannelClosed
 
-from pikachewie.publisher import BlockingJSONPublisher, BlockingPublisher
+from pikachewie.publisher import (BlockingJSONPublisher, BlockingPublisher,
+                                  JSONPublisherMixin)
 from tests import _BaseTestCase
 
 mod = 'pikachewie.publisher'
@@ -108,7 +109,7 @@ class WhenPublishingJSONMessage(_BaseTestCase):
         self.publisher._serialize.assert_called_once_with(sentinel.payload)
 
     def should_call_super(self):
-        self.ctx.super.assert_called_once_with(BlockingJSONPublisher,
+        self.ctx.super.assert_called_once_with(JSONPublisherMixin,
                                                self.publisher)
 
     def should_call_publish_on_superclass(self):

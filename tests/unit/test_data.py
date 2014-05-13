@@ -74,13 +74,6 @@ class DescribeProperties(_BaseTestCase):
     def should_have_default_user_id(self):
         self.assertIsNone(self.properties.user_id)
 
-    def should_have_repr(self):
-        self.assertEqual(repr(self.properties),
-                         "<Properties(['timestamp=sentinel.timestamp', "
-                         "'delivery_mode=1', 'headers={}', "
-                         "'content_type=text/text', "
-                         "'message_id=sentinel.message_id'])>")
-
 
 class WhenCreatingPropertiesWithHeader(unittest.TestCase):
     kwargs = {
@@ -148,16 +141,3 @@ class WhenCreatingPropertiesWithHeader(unittest.TestCase):
 
     def should_set_user_id(self):
         self.assertEqual(self.properties.user_id, self.kwargs['user_id'])
-
-    def should_have_repr(self):
-        self.assertEqual(repr(self.properties),
-                         '<Properties([\'user_id=amqp_user_id\', '
-                         '\'timestamp=1234567999\', \'delivery_mode=2\', '
-                         '\'app_id=3PO\', \'priority=9\', '
-                         '"headers={\'tags\': [\'best practices\']}", '
-                         '\'correlation_id=dockingbay94\', '
-                         '\'cluster_id=mfalcon\', \'content_encoding=GZIP\', '
-                         '\'content_type=application/JSON\', '
-                         '\'reply_to=reply_to_address\', '
-                         '\'type=message_type_name\', \'message_id=1234\', '
-                         '\'expiration=60000\'])>')

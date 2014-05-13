@@ -14,24 +14,8 @@ from pika.spec import BasicProperties
 log = logging.getLogger(__name__)
 
 
-class BlockingPublisher(object):
-    """Base class for synchronous RabbitMQ publishers."""
-    _channel = None
-
-    def __init__(self, broker):
-        self.broker = broker
-
-    @property
-    def channel(self):
-        """Return an open channel to the RabbitMQ broker.
-
-        If necessary, create and cache a new channel.
-
-        """
-        if not self._channel or not self._channel.is_open:
-            self._channel = self.broker.connect(blocking=True).channel()
-            self._channel.confirm_delivery()
-        return self._channel
+class PublisherMixin(object):
+    """Mixin for publishing messages to RabbitMQ."""
 
     def publish(self, exchange, routing_key, body, properties=None):
         """Publish a message to RabbitMQ.
@@ -101,8 +85,28 @@ class BlockingPublisher(object):
         return basic_properties
 
 
-class BlockingJSONPublisher(BlockingPublisher):
-    """Publisher that JSON-serializes the message payload."""
+class BlockingPublisher(PublisherMixin, object):
+    """Base class for synchronous RabbitMQ publishers."""
+    _channel = None
+
+    def __init__(self, broker):
+        self.broker = broker
+
+    @property
+    def channel(self):
+        """Return an open channel to the RabbitMQ broker.
+
+        If necessary, create and cache a new channel.
+
+        """
+        if not self._channel or not self._channel.is_open:
+            self._channel = self.broker.connect(blocking=True).channel()
+            self._channel.confirm_delivery()
+        return self._channel
+
+
+class JSONPublisherMixin(PublisherMixin):
+    """Publisher Mixin that JSON-serializes the message payload."""
     def _serialize(self, value):
         """Serialize the inbound value as JSON.
 
@@ -125,9 +129,13 @@ class BlockingJSONPublisher(BlockingPublisher):
         if not properties:
             properties = BasicProperties()
         properties.content_type = 'application/json'
-        super(BlockingJSONPublisher, self).publish(
+        super(JSONPublisherMixin, self).publish(
             exchange,
             routing_key,
             self._serialize(payload),
             properties,
         )
+
+
+class BlockingJSONPublisher(JSONPublisherMixin, BlockingPublisher):
+    pass
