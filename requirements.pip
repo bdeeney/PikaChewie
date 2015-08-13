@@ -1,2 +1,3 @@
 Sphinx
 tox
+bumpversion>=0.5.3
