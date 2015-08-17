@@ -71,3 +71,5 @@ TAGS
 /pip-log.txt
 /reports/
 /.tox/
+dist
+build
