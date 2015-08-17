@@ -18,7 +18,7 @@ setup(
     long_description='''PikaChewie is your pika co-pilot, providing RabbitMQ
         messaging tools with bandoliers included.''',
     author='Bryan Deeney',
-    author_email='bryand@aweber.com',
+    author_email='rennybot@pobox.com',
     packages=find_packages(exclude=['tests.*', 'tests']),
     test_suite='nose.collector',
     include_package_data=True,
