@@ -68,7 +68,7 @@ class WhenConnectingToBroker(_BaseTestCase):
 class DescribeOnConnectionFailure(_BaseTestCase):
     __contexts__ = (
         ('time', patch(mod + '.time')),
-        ('sys', patch(mod + '.sys')),
+        ('exit', patch(mod + '.sys.exit')),
     )
 
     def configure(self):
@@ -86,7 +86,7 @@ class DescribeOnConnectionFailure(_BaseTestCase):
         )
 
     def should_exit(self):
-        self.ctx.sys.exit.assert_called_once_with()
+        self.ctx.exit.assert_called_once_with()
 
 
 class DescribeOnConnectionOpen(_BaseTestCase):
