@@ -26,7 +26,8 @@ class _BrokerInitTestCase(_BaseTestCase):
     )
 
     def configure(self):
-        self.nodes.items.return_value = sentinel.node_tuples
+        self.node_tuples = {'default': {}}.items()
+        self.nodes.items.return_value = self.node_tuples
         self.connect_options_copy = MagicMock(spec=dict)
         self.connect_options.copy.return_value = self.connect_options_copy
 
@@ -34,7 +35,7 @@ class _BrokerInitTestCase(_BaseTestCase):
         self.nodes.items.assert_called_once_with()
 
     def should_set_nodes(self):
-        self.assertEqual(self.broker._nodes, sentinel.node_tuples)
+        self.assertEqual(self.broker._nodes, list(self.node_tuples))
 
     def should_copy_connect_options(self):
         self.connect_options.copy.assert_called_once_with()
@@ -107,7 +108,8 @@ class WhenCreatingBrokerWithCredentialsDict(_BaseTestCase):
         return NonCallableMagicMock()
 
     def configure(self):
-        self.nodes.items.return_value = sentinel.node_tuples
+        self.node_tuples = {'default': {}}.items()
+        self.nodes.items.return_value = self.node_tuples
         self.connect_options.copy.return_value = {
             'credentials': self.credentials,
         }
