@@ -66,7 +66,7 @@ class Broker(object):
         if connect_options is None:
             connect_options = self.DEFAULT_CONNECT_OPTIONS
 
-        self._nodes = nodes.items()
+        self._nodes = list(nodes.items())
         self._connect_options = connect_options.copy()
         if isinstance(self._connect_options.get('credentials'), dict):
             self._connect_options['credentials'] = PlainCredentials(

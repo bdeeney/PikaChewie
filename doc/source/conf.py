@@ -33,7 +33,7 @@ extensions = [
     'sphinx.ext.ifconfig',
 ]
 
-copyright = '2013, Bryan Deeney, AWeber Communications'
+copyright = '2013-2015, Bryan D. Deeney'
 pygments_style = 'sphinx'
 
 templates_path = ['_templates']

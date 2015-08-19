@@ -342,7 +342,8 @@ class ConsumerAgent(object):
 
         """
         log.warning('Agent handled %s: %s', exc.__class__.__name__, exc)
-        formatted_lines = traceback.format_exc()
-        for offset, line in enumerate(formatted_lines.splitlines()):
-            log.debug('(%s) %i: %s', exc.__class__.__name__, offset,
-                      line.strip())
+        if sys.exc_info()[0] is not None:
+            formatted_lines = traceback.format_exc()
+            for offset, line in enumerate(formatted_lines.splitlines()):
+                log.debug('(%s) %i: %s', exc.__class__.__name__, offset,
+                          line.strip())

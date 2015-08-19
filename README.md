@@ -6,6 +6,8 @@ PikaChewie is your [pika](https://pika.readthedocs.org/) co-pilot,
 providing [RabbitMQ](http://www.rabbitmq.com/) messaging tools with
 [bandoliers](http://www.angelfire.com/pa2/crash19/bandolier.html) included.
 
+Supports Python 2.6, 2.7, 3.3, and 3.4.
+
 Lineage
 -------
 PikaChewie is an extensive reworking of [Gavin M. Roy](https://github.com/gmr)'s
