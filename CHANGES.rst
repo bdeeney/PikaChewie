@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+1.1.1 2016-12-12
+----------------
+
+- Unpin pika dependency now that pika 0.10.0 has been released.
+
 1.1 2015-08-19
 --------------
 
