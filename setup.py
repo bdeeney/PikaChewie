@@ -31,7 +31,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=[
-        'pika==0.10.0b2',
+        'pika',
         'simplejson',
         'tornado',
     ],
