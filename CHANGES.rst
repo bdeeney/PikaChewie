@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+1.2 2017-05-15
+--------------
+
+- Add deleter for ``BlockingPublisher.channel`` (#4 by @the-allanc).
+- Configure Travis CI.
+
 1.1.1 2016-12-12
 ----------------
 
