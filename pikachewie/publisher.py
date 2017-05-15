@@ -104,6 +104,10 @@ class BlockingPublisher(PublisherMixin, object):
             self._channel.confirm_delivery()
         return self._channel
 
+    @channel.deleter
+    def channel(self):
+        self._channel = None
+
 
 class JSONPublisherMixin(PublisherMixin):
     """Publisher Mixin that JSON-serializes the message payload."""
