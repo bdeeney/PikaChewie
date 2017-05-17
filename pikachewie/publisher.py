@@ -17,6 +17,8 @@ log = logging.getLogger(__name__)
 class PublisherMixin(object):
     """Mixin for publishing messages to RabbitMQ."""
 
+    retry_on_exceptions = (ConnectionClosed, ChannelClosed)
+
     def publish(self, exchange, routing_key, body, properties=None):
         """Publish a message to RabbitMQ.
 
@@ -38,7 +40,7 @@ class PublisherMixin(object):
                 properties=properties,
                 body=body,
             )
-        except (ConnectionClosed, ChannelClosed) as exc:
+        except self.retry_on_exceptions as exc:
             log.warn('Cannot publish on existing channel')
             log.info('Attempting to republish on new channel')
             self._channel = None
