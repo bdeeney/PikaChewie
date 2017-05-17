@@ -51,6 +51,20 @@ class PublisherMixin(object):
                 body=body,
             )
 
+    def process_data_events(self, time_limit=0):
+        """Calls process_data_events on the current connection (if there is
+        currently one open).
+        """
+        if self._channel:
+            try:
+                self.channel.connection.process_data_events(time_limit=time_limit)
+            except self.retry_on_exceptions as exc:
+                log.warn('Cannot process data events')
+
+                # If there's a problem, we'll discard the channel and reconnect
+                # it on demand.
+                self._channel = None
+
     def _build_basic_properties(self, properties):
         """
         Get the pika.BasicProperties from a pikachewie.data.Properties object.
