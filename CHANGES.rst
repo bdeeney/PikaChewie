@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+1.3 2017-05-19
+--------------
+
+- Add ``retry_on_exceptions`` and ``process_data_events()`` to
+  ``PublisherMixin`` (#5 by @the-allanc).
+
 1.2 2017-05-15
 --------------
 
