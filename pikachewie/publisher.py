@@ -59,7 +59,7 @@ class PublisherMixin(object):
             try:
                 self.channel.connection.process_data_events(time_limit=time_limit)
             except self.retry_on_exceptions as exc:
-                log.warn('Cannot process data events')
+                log.exception('Cannot process data events - dropping connection: %r', exc)
 
                 # If there's a problem, we'll discard the channel and reconnect
                 # it on demand.
