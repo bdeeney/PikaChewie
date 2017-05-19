@@ -17,6 +17,8 @@ log = logging.getLogger(__name__)
 class PublisherMixin(object):
     """Mixin for publishing messages to RabbitMQ."""
 
+    retry_on_exceptions = (ConnectionClosed, ChannelClosed)
+
     def publish(self, exchange, routing_key, body, properties=None):
         """Publish a message to RabbitMQ.
 
@@ -38,7 +40,7 @@ class PublisherMixin(object):
                 properties=properties,
                 body=body,
             )
-        except (ConnectionClosed, ChannelClosed) as exc:
+        except self.retry_on_exceptions as exc:
             log.warn('Cannot publish on existing channel')
             log.info('Attempting to republish on new channel')
             self._channel = None
@@ -48,6 +50,20 @@ class PublisherMixin(object):
                 properties=properties,
                 body=body,
             )
+
+    def process_data_events(self, time_limit=0):
+        """Calls process_data_events on the current connection (if there is
+        currently one open).
+        """
+        if self._channel:
+            try:
+                self.channel.connection.process_data_events(time_limit=time_limit)
+            except self.retry_on_exceptions as exc:
+                log.exception('Cannot process data events - dropping connection: %r', exc)
+
+                # If there's a problem, we'll discard the channel and reconnect
+                # it on demand.
+                self._channel = None
 
     def _build_basic_properties(self, properties):
         """
